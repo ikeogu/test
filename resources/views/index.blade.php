@@ -71,7 +71,7 @@
                                 <label for="Phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }} <span style="color: red;">*</span></label>
 
                                 <div class="col-md-6">
-                                    <input id="phone" type="email" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') }}" required>
+                                    <input id="phone" type="text" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') }}" required>
 
                                     @if ($errors->has('phone'))
                                         <span class="invalid-feedback" role="alert">
@@ -127,15 +127,37 @@
                             <small><span style="color: red;">*</span> are compulsory</small><br />
 						<img src="https://geoson.org/wp-content/plugins/payment-forms-for-paystack/public/../images/logos@2x.png" alt="cardlogos"  class="paystack-cardlogos size-full wp-image-1096" />
                         </div>
-                            
-                            <div class="form-group row mb-0">
-                                <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Register') }}
-                                    </button>
-                                </div>
-                            </div>
+                         
                         </form>
+                        <form method="POST" action="{{ route('pay') }}" accept-charset="UTF-8" class="form-horizontal" role="form">
+        <div class="row" style="margin-bottom:40px;">
+          <div class="col-md-8 col-md-offset-2">
+            <p>
+                <div>
+                    Lagos Eyo Print Tee Shirt
+                    ₦ 2,950
+                </div>
+            </p>
+            <input type="email" name="email" value="{{ikeogu31@gmail.com}}"> {{-- required --}}
+            <input type="hidden" name="orderID" value="345">
+            <input type="text" name="amount" value="{{200000}}"> {{-- required in kobo --}}
+            <input type="hidden" name="quantity" value="3">
+            <input type="hidden" name="metadata" value="{{ json_encode($array = ['key_name' => 'value',]) }}" > {{-- For other necessary things you want to add to your payload. it is optional though --}}
+            <input type="hidden" name="reference" value="{{ Paystack::genTranxRef() }}"> {{-- required --}}
+            <input type="hidden" name="key" value="{{ config('paystack.secretKey') }}"> {{-- required --}}
+            {{ csrf_field() }} {{-- works only when using laravel 5.1, 5.2 --}}
+
+             <input type="hidden" name="_token" value="{{ csrf_token() }}"> {{-- employ this in place of csrf_field only in laravel 5.0 --}}
+
+
+            <p>
+              <button class="btn btn-success btn-lg btn-block" type="submit" value="Pay Now!">
+              <i class="fa fa-plus-circle fa-lg"></i> Pay Now!
+              </button>
+            </p>
+          </div>
+        </div>
+</form>
                     </div>
                 </div>
             </div>
